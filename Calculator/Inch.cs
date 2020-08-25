@@ -49,7 +49,7 @@ namespace Calculator
 
                 case "to km":
                     Console.WriteLine($"Converting from {ThisUnit} to km");
-                    toReturn = quantity * ToFeet;
+                    toReturn = quantity * ToKm;
                     break;
 
                 default:
