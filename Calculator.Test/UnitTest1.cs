@@ -13,8 +13,10 @@ namespace Calculator.Test
         [Test]
         public void Test1()
         {
-            Class1 c = new Class1();
-            Assert.AreEqual(2, c.Add(1, 1));
+            Inch inch = new Inch();
+            inch.setToUnit("To cm");
+
+            Assert.AreEqual(12.7, inch.Calculate(5));
         }
     }
 }
