@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System;
 
 namespace Calculator.Test
 {
@@ -22,12 +23,23 @@ namespace Calculator.Test
             Assert.AreEqual(expected, inch.Calculate(given));
         }
 
+        [TestCase(1,1,"something")]
         [Test]
-        public void TestInvalidInput()
+        public void TestInvalidInputOption(double expected, double given, string text)
         {
             Inch inch = new Inch();
+            inch.setToUnit(text);
 
-            Assert.AreEqual(0, inch.Calculate(2));
+            try
+            {
+                //Exception should be thrown
+                inch.Calculate(given);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                Assert.Pass();
+            }
         }
     }
 }

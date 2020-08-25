@@ -54,7 +54,8 @@ namespace Calculator
 
                 default:
                     Console.WriteLine("Invalid option. Falling back");
-                    break;
+                    throw new InvalidOperationException();
+                    //break;
 
             }
 
