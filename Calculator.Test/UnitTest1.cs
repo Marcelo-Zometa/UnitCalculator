@@ -60,9 +60,9 @@ namespace Calculator.Test
         public void TestM(double expected, double given, string text)
         {
             Meter meter= new Meter();
-            meter.setToUnit(text);
+            //meter.setToUnit(text);
 
-            Assert.AreEqual(expected, meter.Calculate(given));
+            Assert.AreEqual(expected, meter.Calculate(given, text));
         }
 
         [TestCase(500_000, 5, "TO CM")]
