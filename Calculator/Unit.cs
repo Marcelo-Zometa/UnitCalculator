@@ -16,6 +16,7 @@ namespace Calculator
         private double ToM = 0;
         private double ToKm = 0;
 
+        //Constructor
         public Unit(string toUnit, string thisUnit, double toInch,
             double toFeet, double toMile, double toCm, double toM,
             double toKm)
@@ -76,8 +77,6 @@ namespace Calculator
             }
 
             return toReturn;
-        }
-
-        
+        }       
     }
 }

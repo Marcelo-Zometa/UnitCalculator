@@ -12,9 +12,8 @@ namespace Calculator.Test
         public void TestInches(double expected, double given, string text)
         {
             Inch inch = new Inch();
-            inch.setToUnit(text);
-
-            Assert.AreEqual(expected, inch.Calculate(given));
+            
+            Assert.AreEqual(expected, inch.Calculate(given, text));
         }
 
         [TestCase(152.4, 5, "TO CM")]
@@ -24,9 +23,8 @@ namespace Calculator.Test
         public void TestFeet(double expected, double given, string text)
         {
             Foot foot= new Foot();
-            foot.setToUnit(text);
-
-            Assert.AreEqual(expected, foot.Calculate(given));
+ 
+            Assert.AreEqual(expected, foot.Calculate(given, text));
         }
 
         [TestCase(804_672, 5, "TO CM")]
@@ -36,9 +34,8 @@ namespace Calculator.Test
         public void TestMile(double expected, double given, string text)
         {
             Mile mile= new Mile();
-            mile.setToUnit(text);
 
-            Assert.AreEqual(expected, mile.Calculate(given));
+            Assert.AreEqual(expected, mile.Calculate(given, text));
         }
 
         [TestCase(5, 5, "TO CM")]
@@ -48,9 +45,8 @@ namespace Calculator.Test
         public void TestCm(double expected, double given, string text)
         {
             Centimeter centimeter= new Centimeter();
-            centimeter.setToUnit(text);
 
-            Assert.AreEqual(expected, centimeter.Calculate(given));
+            Assert.AreEqual(expected, centimeter.Calculate(given, text));
         }
 
         [TestCase(500, 5, "TO CM")]
@@ -60,7 +56,6 @@ namespace Calculator.Test
         public void TestM(double expected, double given, string text)
         {
             Meter meter= new Meter();
-            //meter.setToUnit(text);
 
             Assert.AreEqual(expected, meter.Calculate(given, text));
         }
@@ -72,9 +67,8 @@ namespace Calculator.Test
         public void TestKm(double expected, double given, string text)
         {
             Kilometer kilometer= new Kilometer();
-            kilometer.setToUnit(text);
 
-            Assert.AreEqual(expected, kilometer.Calculate(given));
+            Assert.AreEqual(expected, kilometer.Calculate(given, text));
         }
 
         [TestCase(1,1,"something")]
@@ -82,12 +76,11 @@ namespace Calculator.Test
         public void TestInvalidInputOption(double expected, double given, string text)
         {
             Inch inch = new Inch();
-            inch.setToUnit(text);
 
             try
             {
                 //Exception should be thrown
-                inch.Calculate(given);
+                inch.Calculate(given, text);
             }
             catch (Exception e)
             {
