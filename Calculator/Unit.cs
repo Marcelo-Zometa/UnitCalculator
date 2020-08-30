@@ -16,6 +16,9 @@ namespace Calculator
         private double ToM = 0;
         private double ToKm = 0;
 
+        private double NewValue = 0;
+        private double OldValue = 0;
+
         //Constructor
         public Unit(string toUnit, string thisUnit, double toInch,
             double toFeet, double toMile, double toCm, double toM,
@@ -34,6 +37,7 @@ namespace Calculator
         public double Calculate(double quantity, string toUnit)
         {
             double toReturn = 0;
+            OldValue = quantity;
 
             ToUnit = toUnit.ToLower();
 
@@ -59,7 +63,7 @@ namespace Calculator
                     toReturn = quantity * ToCm;
                     break;
 
-                case "to meters":
+                case "to m":
                     Console.WriteLine($"Converting from {ThisUnit} to meters");
                     toReturn = quantity * ToM;
                     break;
@@ -76,7 +80,28 @@ namespace Calculator
 
             }
 
+            NewValue = toReturn;
             return toReturn;
         }       
+
+        public string GetNewUnit()
+        {
+            return ToUnit;
+        }
+
+        public double GetOldValue()
+        {
+            return OldValue;
+        }
+
+        public string GetThisUnit()
+        {
+            return ThisUnit;
+        }
+
+        public double GetNewValue()
+        {
+            return NewValue;
+        }
     }
 }
