@@ -73,12 +73,16 @@
                             Content="Calculate"
                             Command="{Binding Calculate}"/>
 
-                    <Label Grid.Row="5"
+                    <StackPanel Grid.Row="5"
+                                Orientation="Horizontal">
+                        <Label Grid.Row="5"
                            VerticalAlignment="Center"
                            Content="{Binding ValueAnswer}"/>
-                    <Label Grid.Row="5"
+                        <Label Grid.Row="5"
                            VerticalAlignment="Center"
                            Content="{Binding UnitAnswer}"/>
+                    </StackPanel>
+                    
                 </Grid>
             </TabItem>
             <TabItem Header="History">

@@ -15,16 +15,22 @@ namespace Calculator.WPF.ViewModel
 
         public MainWindowViewModel()
         {
+            ValueAnswer = "[]";
+            UnitAnswer = "[]";
 
             Calculate = new DelegateCommand(
                 () =>
                 {
 
                     unit = createUnit(SelectedOldUnit);
-                    //unit.Calculate(OldValue, SelectedNewUnit);
-                    double test = OldValue;
-                    //ValueAnswer = unit.GetNewValue().ToString();
-                    //UnitAnswer = unit.GetNewUnit().ToString();
+                    unit.Calculate(OldValue, "to " + SelectedNewUnit);
+                    
+                    ValueAnswer = unit.GetNewValue().ToString();
+                    UnitAnswer = unit.GetNewUnit().ToString();
+                    UnitAnswer = UnitAnswer.Remove(0, 3);
+
+                    RaisePropertyChanged(nameof(ValueAnswer));
+                    RaisePropertyChanged(nameof(UnitAnswer));
                 },
                 () =>
                 {
