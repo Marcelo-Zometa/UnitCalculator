@@ -51,5 +51,11 @@ namespace Calculator.Test
 
             Assert.AreEqual(expected, vm.unit.GetNewValue());
         }
+
+        [Test]
+        public void importingFileWorks()
+        {
+
+        }
     }
 }

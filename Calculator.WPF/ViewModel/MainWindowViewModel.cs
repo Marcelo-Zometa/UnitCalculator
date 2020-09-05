@@ -1,4 +1,5 @@
-﻿using Prism.Commands;
+﻿using Microsoft.Win32;
+using Prism.Commands;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,84 @@ namespace Calculator.WPF.ViewModel
     {
         public Unit unit { get; set; }
         public ObservableCollection<Unit> HistoryList { get; set; }
+
+        private string _filePath;
+        public string FilePath
+        {
+            get { return _filePath; }
+            set 
+            {
+                SetProperty(ref _filePath, value);
+                RaisePropertyChanged(nameof(FilePath));
+            }
+        }
+
+        private double _oldUnitValue;
+        public double OldUnitValue
+        {
+            get { return _oldUnitValue; }
+            set
+            {
+                SetProperty(ref _oldUnitValue, value);
+                Calculate.RaiseCanExecuteChanged();
+            }
+        }
+        //public string OldUnitValue { get; set; }
+
+        private ObservableCollection<string> _oldUnitList;
+
+        public ObservableCollection<string> OldUnitList
+        {
+            get { return _oldUnitList; }
+            set
+            {
+                _oldUnitList = value;
+                Calculate.RaiseCanExecuteChanged();
+
+                RaisePropertyChanged(nameof(OldUnitList));
+            }
+        }
+
+        private ObservableCollection<string> _newUnitList;
+
+        public ObservableCollection<string> NewUnitList
+        {
+            get { return _newUnitList; }
+            set
+            {
+                _newUnitList = value;
+
+                Calculate.RaiseCanExecuteChanged();
+                RaisePropertyChanged(nameof(NewUnitList));
+
+            }
+
+        }
+
+        public string ValueAnswer { get; set; }
+        public string UnitAnswer { get; set; }
+
+        private string _selectedOldUnit;
+        public string SelectedOldUnit
+        {
+            get { return _selectedOldUnit; }
+            set
+            {
+                SetProperty(ref _selectedOldUnit, value);
+                Calculate.RaiseCanExecuteChanged();
+            }
+        }
+
+        private string _selectedNewUnit;
+        public string SelectedNewUnit
+        {
+            get { return _selectedNewUnit; }
+            set
+            {
+                SetProperty(ref _selectedNewUnit, value);
+                Calculate.RaiseCanExecuteChanged();
+            }
+        }
         public MainWindowViewModel()
         {
             HistoryList = new ObservableCollection<Unit>();
@@ -40,6 +119,12 @@ namespace Calculator.WPF.ViewModel
                 return (/*OldUnitValue != null &&*/ SelectedNewUnit != null && SelectedOldUnit != null);
                 });
 
+            BrowseCommand = new DelegateCommand(
+                ()=>
+                {
+                    GetFile();
+                });
+
             //OldUnitValue = 0;
             OldUnitList = new ObservableCollection<string>()
             {
@@ -51,83 +136,29 @@ namespace Calculator.WPF.ViewModel
                 "cm", "ft", "in", "km", "m", "mile"
             };
         }
+
+        private void GetFile()
+        {
+            var dialog = new OpenFileDialog();
+            dialog.Title = "Find Excel file to import";
+            dialog.Filter = "Excel Files|*.xls;*.xlsx;*.xlsm";
+            dialog.Multiselect = false;
+
+            if(dialog.ShowDialog() ?? false)
+            {
+                FilePath = dialog.FileName;
+            }
+        }
+
+        private void browse()
+        {
+            throw new NotImplementedException();
+        }
+
         public DelegateCommand Calculate { get; private set; }
 
-        private double _oldUnitValue;
-        public double OldUnitValue
-        {
-            get { return _oldUnitValue; }
-            set
-            {
-                SetProperty(ref _oldUnitValue, value);
-                Calculate.RaiseCanExecuteChanged();
-            }
-        }
-        //public string OldUnitValue { get; set; }
-
-        private ObservableCollection<string> _oldUnitList;
-
-        public ObservableCollection<string> OldUnitList
-        {
-            get { return _oldUnitList; }
-            set 
-            { 
-                _oldUnitList = value;
-                Calculate.RaiseCanExecuteChanged();
-                
-                RaisePropertyChanged(nameof(OldUnitList));
-            }
-        }
-
-        private ObservableCollection<string> _newUnitList;
-
-        public ObservableCollection<string> NewUnitList
-        {
-            get { return _newUnitList; }
-            set 
-            { 
-                _newUnitList = value;
-                
-                Calculate.RaiseCanExecuteChanged();
-                RaisePropertyChanged(nameof(NewUnitList));
-
-            }
-
-        }
-
-        public string ValueAnswer { get; set; }
-        public string UnitAnswer { get; set; }
-
-        private string _selectedOldUnit;
-        public string SelectedOldUnit
-        {
-            get { return _selectedOldUnit; }
-            set 
-            {
-                SetProperty(ref _selectedOldUnit, value);
-                Calculate.RaiseCanExecuteChanged();
-            }
-        }
-
-        private string _selectedNewUnit;
-        public string SelectedNewUnit
-        {
-            get { return _selectedNewUnit; }
-            set
-            {
-                SetProperty(ref _selectedNewUnit, value);
-                Calculate.RaiseCanExecuteChanged();
-            }
-        }
-
-        public double OldListValue { get; set; }
-
-        public string OldListUnit { get; set; }
-
-        public double NewListValue { get; set; }
-
-        public string NewListUnit { get; set; }
-
+        public DelegateCommand BrowseCommand { get; private set; }
+        
         //Returns reference to unit t be created
         private Unit createUnit(string originalUnit)
         {

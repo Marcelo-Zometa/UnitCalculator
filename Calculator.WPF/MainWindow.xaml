@@ -28,9 +28,13 @@
                            VerticalAlignment="Center"/>
                     <StackPanel Orientation="Horizontal"
                                 Grid.Column="1">
+                        <TextBox Text="{Binding FilePath}"
+                                 VerticalAlignment="Center"
+                                 MinWidth="200"/>
                         <Button Content="Browse" 
                                 Margin="5"
-                                Padding="5px"/>
+                                Padding="5px"
+                                Command="{Binding BrowseCommand}"/>
                         <Button Content="Import"
                                 Padding="5px"
                                 Margin="5"/>
@@ -42,9 +46,7 @@
                     <TextBox Grid.Column="1"
                              Margin="5px"
                              Grid.Row="1"
-                             Text="{Binding OldUnitValue, StringFormat=N2}"
-                             
-                             />
+                             Text="{Binding OldUnitValue, StringFormat=N2}"/>
 
                     <Label Content="From:"
                            Grid.Row="2"
