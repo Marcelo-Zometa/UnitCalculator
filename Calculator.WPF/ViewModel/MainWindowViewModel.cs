@@ -12,9 +12,10 @@ namespace Calculator.WPF.ViewModel
     public class MainWindowViewModel : BindableBase
     {
         public Unit unit { get; set; }
-
+        public ObservableCollection<Unit> HistoryList { get; set; }
         public MainWindowViewModel()
         {
+            HistoryList = new ObservableCollection<Unit>();
             ValueAnswer = "[]";
             UnitAnswer = "[]";
 
@@ -23,21 +24,23 @@ namespace Calculator.WPF.ViewModel
                 {
 
                     unit = createUnit(SelectedOldUnit);
-                    unit.Calculate(OldValue, "to " + SelectedNewUnit);
+                    unit.Calculate(OldUnitValue, "to " + SelectedNewUnit);
                     
                     ValueAnswer = unit.GetNewValue().ToString();
                     UnitAnswer = unit.GetNewUnit().ToString();
                     UnitAnswer = UnitAnswer.Remove(0, 3);
+
+                    HistoryList.Add(unit);
 
                     RaisePropertyChanged(nameof(ValueAnswer));
                     RaisePropertyChanged(nameof(UnitAnswer));
                 },
                 () =>
                 {
-                return (/*OldValue != null &&*/ SelectedNewUnit != null && SelectedOldUnit != null);
+                return (/*OldUnitValue != null &&*/ SelectedNewUnit != null && SelectedOldUnit != null);
                 });
 
-            //OldValue = 0;
+            //OldUnitValue = 0;
             OldUnitList = new ObservableCollection<string>()
             {
                 "cm", "ft", "in", "km", "m", "mile"
@@ -50,17 +53,17 @@ namespace Calculator.WPF.ViewModel
         }
         public DelegateCommand Calculate { get; private set; }
 
-        private double _oldValue;
-        public double OldValue
+        private double _oldUnitValue;
+        public double OldUnitValue
         {
-            get { return _oldValue; }
+            get { return _oldUnitValue; }
             set
             {
-                SetProperty(ref _oldValue, value);
+                SetProperty(ref _oldUnitValue, value);
                 Calculate.RaiseCanExecuteChanged();
             }
         }
-        //public string OldValue { get; set; }
+        //public string OldUnitValue { get; set; }
 
         private ObservableCollection<string> _oldUnitList;
 
@@ -117,7 +120,13 @@ namespace Calculator.WPF.ViewModel
             }
         }
 
+        public double OldListValue { get; set; }
 
+        public string OldListUnit { get; set; }
+
+        public double NewListValue { get; set; }
+
+        public string NewListUnit { get; set; }
 
         //Returns reference to unit t be created
         private Unit createUnit(string originalUnit)

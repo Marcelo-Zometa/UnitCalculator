@@ -42,8 +42,8 @@ namespace Calculator.Test
              * Else
              * throw exception
             */
-            vm._oldValue = 15;
-            vm.OldUnitList = "cm";
+            //vm._oldValue = 15;
+            //vm.OldUnitList = "cm";
             vm.Calculate.Execute();
         }
     }

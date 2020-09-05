@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-        xmlns:local="clr-namespace:Calculator.WPF"
+        xmlns:local="clr-namespace:Calculator.WPF" xmlns:calculator="clr-namespace:Calculator;assembly=Calculator"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <StackPanel Margin="15px">
@@ -42,7 +42,7 @@
                     <TextBox Grid.Column="1"
                              Margin="5px"
                              Grid.Row="1"
-                             Text="{Binding OldValue, StringFormat=N2}"
+                             Text="{Binding OldUnitValue, StringFormat=N2}"
                              
                              />
 
@@ -88,11 +88,22 @@
             <TabItem Header="History">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
-                <DataGrid />
-                <Button Content="Export"
+                    <DataGrid ItemsSource="{Binding HistoryList}" 
+                              AutoGenerateColumns="False"
+                              CanUserAddRows="False"
+                              CanUserReorderColumns="False"
+                              IsReadOnly="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Original Value" Binding="{Binding Unit.OldValue}"/>
+                            <DataGridTextColumn Header="Original Unit" Binding="{Binding Unit.ThisUnit}"/>
+                            <DataGridTextColumn Header="New Value" Binding="{Binding NewValue}"/>
+                            <DataGridTextColumn Header="New Unit" Binding="{Binding ToUnit}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Button Content="Export"
                         Margin="5px"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
