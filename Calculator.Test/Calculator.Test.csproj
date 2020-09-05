@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Calculator.WPF\Calculator.WPF.csproj" />
     <ProjectReference Include="..\Calculator\Calculator.csproj" />
   </ItemGroup>
 
