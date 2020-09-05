@@ -23,36 +23,64 @@
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
-                    
-                    <Label Content="Convert:"
+
+                    <Label Content="Import file:"
                            VerticalAlignment="Center"/>
+                    <StackPanel Orientation="Horizontal"
+                                Grid.Column="1">
+                        <Button Content="Browse" 
+                                Margin="5"
+                                Padding="5px"/>
+                        <Button Content="Import"
+                                Padding="5px"
+                                Margin="5"/>
+                    </StackPanel>
+
+                    <Label Content="Convert:"
+                           VerticalAlignment="Center"
+                           Grid.Row="1"/>
                     <TextBox Grid.Column="1"
-                             Margin="5px"/>
+                             Margin="5px"
+                             Grid.Row="1"/>
 
                     <Label Content="From:"
-                           Grid.Row="1"
-                           VerticalAlignment="Center"/>
-                    <ComboBox Grid.Column="1"
-                             Grid.Row="1"
-                              Margin="5px"/>
-
-                    <Label Content="To:"
                            Grid.Row="2"
                            VerticalAlignment="Center"/>
                     <ComboBox Grid.Column="1"
-                              Grid.Row="2"
+                             Grid.Row="2"
                               Margin="5px"/>
 
-                    <Button Grid.Row="3"
+                    <Label Content="To:"
+                           Grid.Row="3"
+                           VerticalAlignment="Center"/>
+                    <ComboBox Grid.Column="1"
+                              Grid.Row="3"
+                              Margin="5px"/>
+
+                    <Button Grid.Row="4"
                             Grid.ColumnSpan="2"
                             Margin="5px"
+                            Padding="5px"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Content="Calculate"/>
                 </Grid>
             </TabItem>
             <TabItem Header="History">
-                
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                <DataGrid />
+                <Button Content="Export"
+                        Margin="5px"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Padding="5px"
+                        Grid.Row="1"
+                        />
+                </Grid>
             </TabItem>
         </TabControl>
     </StackPanel>
