@@ -8,15 +8,11 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.UI.Xaml" Version="2.4.3" />
+    <PackageReference Include="Prism.Wpf" Version="7.2.0.1422" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Calculator\Calculator.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ViewModel\" />
-    <Folder Include="View\" />
   </ItemGroup>
 
 </Project>

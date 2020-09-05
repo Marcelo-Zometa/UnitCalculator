@@ -41,21 +41,24 @@
                            Grid.Row="1"/>
                     <TextBox Grid.Column="1"
                              Margin="5px"
-                             Grid.Row="1"/>
+                             Grid.Row="1"
+                             DataContext="{Binding Calculator.OldValue}"/>
 
                     <Label Content="From:"
                            Grid.Row="2"
                            VerticalAlignment="Center"/>
                     <ComboBox Grid.Column="1"
                              Grid.Row="2"
-                              Margin="5px"/>
+                              Margin="5px"
+                              ItemsSource="{Binding OldUnitList}"/>
 
                     <Label Content="To:"
                            Grid.Row="3"
                            VerticalAlignment="Center"/>
                     <ComboBox Grid.Column="1"
                               Grid.Row="3"
-                              Margin="5px"/>
+                              Margin="5px"
+                              ItemsSource="{Binding NewUnitList}"/>
 
                     <Button Grid.Row="4"
                             Grid.ColumnSpan="2"
