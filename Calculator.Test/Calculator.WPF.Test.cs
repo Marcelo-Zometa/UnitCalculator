@@ -42,9 +42,14 @@ namespace Calculator.Test
              * Else
              * throw exception
             */
-            //vm._oldValue = 15;
-            //vm.OldUnitList = "cm";
+            vm.OldUnitValue = 1;
+            vm.SelectedOldUnit = "m";
+            vm.SelectedNewUnit = "cm";
+
+            var expected = 100.00;
             vm.Calculate.Execute();
+
+            Assert.AreEqual(expected, vm.unit.GetNewValue());
         }
     }
 }
