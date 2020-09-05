@@ -47,7 +47,7 @@ namespace Calculator.Test
             vm.SelectedNewUnit = "cm";
 
             var expected = 100.00;
-            vm.Calculate.Execute();
+            vm.CalculateCommand.Execute();
 
             Assert.AreEqual(expected, vm.unit.GetNewValue());
         }

@@ -37,7 +37,8 @@
                                 Command="{Binding BrowseCommand}"/>
                         <Button Content="Import"
                                 Padding="5px"
-                                Margin="5"/>
+                                Margin="5"
+                                Command="{Binding ImportCommand}"/>
                     </StackPanel>
 
                     <Label Content="Convert:"
