@@ -42,7 +42,9 @@
                     <TextBox Grid.Column="1"
                              Margin="5px"
                              Grid.Row="1"
-                             DataContext="{Binding _oldValue}"/>
+                             Text="{Binding OldValue, StringFormat=N2}"
+                             
+                             />
 
                     <Label Content="From:"
                            Grid.Row="2"

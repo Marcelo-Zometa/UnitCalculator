@@ -15,23 +15,23 @@ namespace Calculator.WPF.ViewModel
 
         public MainWindowViewModel()
         {
-            _oldValue = 0;
 
             Calculate = new DelegateCommand(
                 () =>
                 {
 
-                    unit = createUnit(OldUnitList.ToString());
-                    unit.Calculate(_oldValue, NewUnitList.ToString());
-
-                    ValueAnswer = unit.GetNewValue().ToString();
-                    UnitAnswer = unit.GetNewUnit().ToString();
+                    unit = createUnit(SelectedOldUnit);
+                    //unit.Calculate(OldValue, SelectedNewUnit);
+                    double test = OldValue;
+                    //ValueAnswer = unit.GetNewValue().ToString();
+                    //UnitAnswer = unit.GetNewUnit().ToString();
                 },
                 () =>
                 {
-                    return (SelectedNewUnit != null && SelectedOldUnit != null);
+                return (/*OldValue != null &&*/ SelectedNewUnit != null && SelectedOldUnit != null);
                 });
 
+            //OldValue = 0;
             OldUnitList = new ObservableCollection<string>()
             {
                 "cm", "ft", "in", "km", "m", "mile"
@@ -44,7 +44,17 @@ namespace Calculator.WPF.ViewModel
         }
         public DelegateCommand Calculate { get; private set; }
 
-        public double _oldValue { get; set; }
+        private double _oldValue;
+        public double OldValue
+        {
+            get { return _oldValue; }
+            set
+            {
+                SetProperty(ref _oldValue, value);
+                Calculate.RaiseCanExecuteChanged();
+            }
+        }
+        //public string OldValue { get; set; }
 
         private ObservableCollection<string> _oldUnitList;
 
@@ -100,29 +110,6 @@ namespace Calculator.WPF.ViewModel
                 Calculate.RaiseCanExecuteChanged();
             }
         }
-
-        //public string SelectedOldUnit { get; set; }
-        //public string SelectedNewUnit { get; set; }
-
-
-        //private DelegateCommand calculate;
-        //public DelegateCommand Calculate => calculate ?? new DelegateCommand(
-        //    ()=> 
-        //    {
-        //        unit = createUnit(SelectedOldUnit);
-        //        unit.Calculate(_oldValue, SelectedNewUnit);
-
-        //        ValueAnswer = unit.GetNewValue().ToString();
-        //        UnitAnswer = unit.GetNewUnit().ToString();
-                
-        //        RaisePropertyChanged(nameof(ValueAnswer));
-        //        RaisePropertyChanged(nameof(UnitAnswer));
-        //    }, 
-        //    ()=> 
-        //    {
-        //        return SelectedNewUnit != null && SelectedOldUnit != null;
-
-        //    });
 
 
 
