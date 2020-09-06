@@ -39,8 +39,16 @@ namespace Calculator.WPF.ViewModel
             get { return _oldUnitValue; }
             set
             {
-                SetProperty(ref _oldUnitValue, value);
-                CalculateCommand.RaiseCanExecuteChanged();
+                if(value < 0)
+                {
+                    MessageBox.Show("Invalid input. Value must be greater than 0", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+                else
+                {
+                    SetProperty(ref _oldUnitValue, value);
+                    CalculateCommand.RaiseCanExecuteChanged();
+                }
             }
         }
         
@@ -124,17 +132,7 @@ namespace Calculator.WPF.ViewModel
                 ()=>
                 {
                     ImportFromExcel();
-                    OldUnitValue = HistoryList.Last().GetOldValue();
-                    SelectedOldUnit = HistoryList.Last().GetThisUnit();
-                    SelectedNewUnit = HistoryList.Last().GetNewUnit().Remove(0, 3);
                     
-
-                    
-                    RaisePropertyChanged(nameof(OldUnitValue));
-                    RaisePropertyChanged(nameof(SelectedOldUnit));
-                    RaisePropertyChanged(nameof(SelectedNewUnit));
-
-                    AssignAnswerValues();
                     //CalculateCommand.RaiseCanExecuteChanged();
                 },
                 ()=>
@@ -204,6 +202,7 @@ namespace Calculator.WPF.ViewModel
             if (dialog.ShowDialog() ?? false)
             {
                 FilePath = dialog.FileName;
+
             }
         }
 
@@ -216,6 +215,12 @@ namespace Calculator.WPF.ViewModel
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             ExcelPackage excelPackage = new ExcelPackage(new FileInfo(FilePath));
 
+            if(excelPackage.File.Exists == false)
+            {
+                MessageBox.Show("Invalid input. File does not exist", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
             var sheet = excelPackage.Workbook.Worksheets.First();
 
             for (int row = 2; row <= sheet.Dimension.End.Row; row++)
@@ -225,6 +230,15 @@ namespace Calculator.WPF.ViewModel
 
                 HistoryList.Add(_unit);
             }
+            OldUnitValue = HistoryList.Last().GetOldValue();
+            SelectedOldUnit = HistoryList.Last().GetThisUnit();
+            SelectedNewUnit = HistoryList.Last().GetNewUnit().Remove(0, 3);
+
+            RaisePropertyChanged(nameof(OldUnitValue));
+            RaisePropertyChanged(nameof(SelectedOldUnit));
+            RaisePropertyChanged(nameof(SelectedNewUnit));
+
+            AssignAnswerValues();
 
             RaiseButtonCanExecute();
         }

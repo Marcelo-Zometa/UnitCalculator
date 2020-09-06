@@ -7,6 +7,18 @@
         xmlns:local="clr-namespace:Calculator.WPF" xmlns:calculator="clr-namespace:Calculator;assembly=Calculator"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+    <Window.Resources>
+        <Style TargetType="TextBox">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError"
+                     Value="True">
+                    <Setter Property="ToolTip"
+                        Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}">
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
     <StackPanel Margin="15px">
         <TabControl>
             <TabItem Header="Calculator">
@@ -47,7 +59,7 @@
                     <TextBox Grid.Column="1"
                              Margin="5px"
                              Grid.Row="1"
-                             Text="{Binding OldUnitValue, StringFormat=N2}"/>
+                             Text="{Binding OldUnitValue, StringFormat=N2, ValidatesOnExceptions=True}"/>
 
                     <Label Content="From:"
                            Grid.Row="2"
