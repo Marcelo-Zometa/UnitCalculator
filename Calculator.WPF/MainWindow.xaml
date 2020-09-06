@@ -112,7 +112,7 @@
                         VerticalAlignment="Center"
                         Padding="5px"
                         Grid.Row="1"
-                        />
+                        Command="{Binding ExportCommand}"/>
                 </Grid>
             </TabItem>
         </TabControl>

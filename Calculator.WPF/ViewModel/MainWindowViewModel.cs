@@ -6,10 +6,12 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Transactions;
+using System.Windows;
 using LicenseContext = OfficeOpenXml.LicenseContext;
 
 namespace Calculator.WPF.ViewModel
@@ -115,7 +117,7 @@ namespace Calculator.WPF.ViewModel
             BrowseCommand = new DelegateCommand(
                 ()=>
                 {
-                    GetFile();
+                    GetFile("Find Excel file to import");
                 });
 
             ImportCommand = new DelegateCommand(
@@ -139,7 +141,16 @@ namespace Calculator.WPF.ViewModel
                 {
                     return (FilePath != null);
                 });
-            
+
+            ExportCommand = new DelegateCommand(
+                ()=> 
+                {
+                    ExportToExcel();
+                },
+                ()=>
+                {
+                    return (HistoryList.Count() > 0);
+                });
 
             //OldUnitValue = 0;
             OldUnitList = new ObservableCollection<string>()
@@ -162,6 +173,41 @@ namespace Calculator.WPF.ViewModel
             RaisePropertyChanged(nameof(UnitAnswer));
         }
 
+        private void RaiseButtonCanExecute()
+        {
+            ImportCommand.RaiseCanExecuteChanged();
+            CalculateCommand.RaiseCanExecuteChanged();
+            ExportCommand.RaiseCanExecuteChanged();
+        }
+
+        public DelegateCommand CalculateCommand { get; private set; }
+
+        private void CalculateAnswer()
+        {
+            unit = createUnit(SelectedOldUnit);
+            unit.Calculate(OldUnitValue, "to " + SelectedNewUnit);
+
+            HistoryList.Add(unit);
+
+            AssignAnswerValues();
+            RaiseButtonCanExecute();
+        }
+
+        public DelegateCommand BrowseCommand { get; private set; }
+        private void GetFile(string message)
+        {
+            var dialog = new OpenFileDialog();
+            dialog.Title = message;
+            dialog.Filter = "Excel Files|*.xls;*.xlsx;*.xlsm";
+            dialog.Multiselect = false;
+
+            if (dialog.ShowDialog() ?? false)
+            {
+                FilePath = dialog.FileName;
+            }
+        }
+
+        public DelegateCommand ImportCommand { get; private set; }
         private void ImportFromExcel()
         {
             Unit _unit;
@@ -172,44 +218,70 @@ namespace Calculator.WPF.ViewModel
 
             var sheet = excelPackage.Workbook.Worksheets.First();
 
-            for(int row=2; row <= sheet.Dimension.End.Row; row++)
+            for (int row = 2; row <= sheet.Dimension.End.Row; row++)
             {
                 _unit = createUnit((string)sheet.Cells[row, 2].Value);
-                _unit.Calculate((double)sheet.Cells[row, 1].Value,"to " +  (string)sheet.Cells[row, 3].Value);
+                _unit.Calculate((double)sheet.Cells[row, 1].Value, "to " + (string)sheet.Cells[row, 3].Value);
 
                 HistoryList.Add(_unit);
             }
+
+            RaiseButtonCanExecute();
         }
 
-        private void CalculateAnswer()
+        public DelegateCommand ExportCommand { get; private set; }
+        private void ExportToExcel()
         {
-            unit = createUnit(SelectedOldUnit);
-            unit.Calculate(OldUnitValue, "to " + SelectedNewUnit);
+            GetFile("Locate file to export to");
 
-            HistoryList.Add(unit);
+            if (FilePath == null)
+                return;
 
-            AssignAnswerValues();            
-        }
-
-        private void GetFile()
-        {
-            var dialog = new OpenFileDialog();
-            dialog.Title = "Find Excel file to import";
-            dialog.Filter = "Excel Files|*.xls;*.xlsx;*.xlsm";
-            dialog.Multiselect = false;
-
-            if(dialog.ShowDialog() ?? false)
+            if (File.Exists(FilePath))
             {
-                FilePath = dialog.FileName;
+                var result = MessageBox.Show("There is another file named like that.", "Overwrite it?", MessageBoxButton.YesNo);
+                if (result == MessageBoxResult.Yes)
+                {
+                    File.Delete(FilePath);
+                }
+                else
+                    return;
             }
+
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            ExcelPackage package = new ExcelPackage(new FileInfo(FilePath));
+            var sheet = package.Workbook.Worksheets.Add("Export");
+
+            //Headers
+            sheet.Cells[1, 1].Value = "Original Value";
+            sheet.Cells[1, 2].Value = "Original Unit";
+            sheet.Cells[1, 3].Value = "New Value";
+            sheet.Cells[1, 4].Value = "New Unit";
+
+            var row = 1;
+
+            //Adding info to table
+            foreach(Unit unit in HistoryList)
+            {
+                row++;
+                sheet.Cells[row, 1].Value = unit.OldValue;
+                sheet.Cells[row, 2].Value = unit.ThisUnit;
+                sheet.Cells[row, 3].Value = unit.NewValue;
+                sheet.Cells[row, 4].Value = unit.ToUnit.Remove(0,3);
+            }
+
+            sheet.Tables.Add(sheet.Cells[1, 1, row, 4], "ExportUnits");
+
+            package.Save();
+
+            new Process
+            {
+                StartInfo = new ProcessStartInfo(FilePath)
+                {
+                    UseShellExecute = true
+                }
+            }.Start();
         }
-
-        public DelegateCommand CalculateCommand { get; private set; }
-
-        public DelegateCommand BrowseCommand { get; private set; }
-        
-        public DelegateCommand ImportCommand { get; private set; }
-
         //Returns reference to unit t be created
         private Unit createUnit(string originalUnit)
         {
