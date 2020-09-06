@@ -6,8 +6,8 @@ namespace Calculator
 {
     public abstract class Unit
     {
-        private string ToUnit = null;
-        private string ThisUnit = null;
+        //private string ToUnit = null;
+        //private string ThisUnit = null;
 
         private double ToInch = 0;
         private double ToFeet = 0;
@@ -16,8 +16,33 @@ namespace Calculator
         private double ToM = 0;
         private double ToKm = 0;
 
-        private double NewValue = 0;
-        private double OldValue = 0;
+        private string _thisUnit;
+        public string ThisUnit
+        {
+            get { return _thisUnit; }
+            set { _thisUnit =  value; }
+        }
+
+        private string _toUnit;
+        public string ToUnit
+        {
+            get { return _toUnit; }
+            set { _toUnit = value; }
+        }
+
+        private double _newValue;
+        public double NewValue
+        {
+            get { return _newValue; }
+            set { _newValue = value; }
+        }
+        private double _oldValue;
+        public double OldValue
+        {
+            get { return _oldValue; }
+            set { _oldValue = value; }
+        }
+        
 
         //Constructor
         public Unit(string toUnit, string thisUnit, double toInch,
@@ -53,7 +78,7 @@ namespace Calculator
                     toReturn = quantity * ToFeet;
                     break;
 
-                case "to miles":
+                case "to mile":
                     Console.WriteLine($"Converting from {ThisUnit} to miles");
                     toReturn = quantity * ToMile;
                     break;

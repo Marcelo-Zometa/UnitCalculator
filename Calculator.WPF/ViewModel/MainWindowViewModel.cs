@@ -122,15 +122,18 @@ namespace Calculator.WPF.ViewModel
                 ()=>
                 {
                     ImportFromExcel();
-                    OldUnitValue= HistoryList.Last().GetOldValue();
+                    OldUnitValue = HistoryList.Last().GetOldValue();
                     SelectedOldUnit = HistoryList.Last().GetThisUnit();
                     SelectedNewUnit = HistoryList.Last().GetNewUnit().Remove(0, 3);
+                    
 
-                    ValueAnswer = HistoryList.Last().GetNewValue().ToString();
-                    UnitAnswer = HistoryList.Last().GetNewUnit().ToString().Remove(0, 3);
+                    
+                    RaisePropertyChanged(nameof(OldUnitValue));
+                    RaisePropertyChanged(nameof(SelectedOldUnit));
+                    RaisePropertyChanged(nameof(SelectedNewUnit));
 
-                    RaisePropertyChanged(nameof(ValueAnswer));
-                    RaisePropertyChanged(nameof(UnitAnswer));
+                    AssignAnswerValues();
+                    //CalculateCommand.RaiseCanExecuteChanged();
                 },
                 ()=>
                 {
@@ -148,6 +151,15 @@ namespace Calculator.WPF.ViewModel
             {
                 "cm", "ft", "in", "km", "m", "mile"
             };
+        }
+
+        private void AssignAnswerValues()
+        {
+            ValueAnswer = HistoryList.Last().GetNewValue().ToString();
+            UnitAnswer = HistoryList.Last().GetNewUnit().ToString().Remove(0, 3);
+
+            RaisePropertyChanged(nameof(ValueAnswer));
+            RaisePropertyChanged(nameof(UnitAnswer));
         }
 
         private void ImportFromExcel()
@@ -174,14 +186,9 @@ namespace Calculator.WPF.ViewModel
             unit = createUnit(SelectedOldUnit);
             unit.Calculate(OldUnitValue, "to " + SelectedNewUnit);
 
-            ValueAnswer = unit.GetNewValue().ToString();
-            UnitAnswer = unit.GetNewUnit().ToString();
-            UnitAnswer = UnitAnswer.Remove(0, 3);
-
             HistoryList.Add(unit);
 
-            RaisePropertyChanged(nameof(ValueAnswer));
-            RaisePropertyChanged(nameof(UnitAnswer));
+            AssignAnswerValues();            
         }
 
         private void GetFile()

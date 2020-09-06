@@ -74,7 +74,7 @@
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Content="Calculate"
-                            Command="{Binding Calculate}"/>
+                            Command="{Binding CalculateCommand}"/>
 
                     <StackPanel Grid.Row="5"
                                 Orientation="Horizontal">
@@ -100,8 +100,8 @@
                               CanUserReorderColumns="False"
                               IsReadOnly="True">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Original Value" Binding="{Binding Unit.OldValue}"/>
-                            <DataGridTextColumn Header="Original Unit" Binding="{Binding Unit.ThisUnit}"/>
+                            <DataGridTextColumn Header="Original Value" Binding="{Binding OldValue}"/>
+                            <DataGridTextColumn Header="Original Unit" Binding="{Binding ThisUnit}"/>
                             <DataGridTextColumn Header="New Value" Binding="{Binding NewValue}"/>
                             <DataGridTextColumn Header="New Unit" Binding="{Binding ToUnit}"/>
                         </DataGrid.Columns>
