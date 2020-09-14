@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calculator.WinForms.2", "Ca
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Calculator.WPF", "Calculator.WPF\Calculator.WPF.csproj", "{1C6D6925-516C-4882-A4F1-F505E6F76046}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calculator.Blazor", "Calculator.Blazor\Calculator.Blazor.csproj", "{2B5CF6DD-6246-44D0-8923-D31CD87733DD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{1C6D6925-516C-4882-A4F1-F505E6F76046}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1C6D6925-516C-4882-A4F1-F505E6F76046}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1C6D6925-516C-4882-A4F1-F505E6F76046}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B5CF6DD-6246-44D0-8923-D31CD87733DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B5CF6DD-6246-44D0-8923-D31CD87733DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B5CF6DD-6246-44D0-8923-D31CD87733DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B5CF6DD-6246-44D0-8923-D31CD87733DD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
