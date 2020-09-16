@@ -1,7 +1,26 @@
 ﻿@page "/"
+<h1>@Title</h1> 
 
-<h1>Hello, world!</h1>
+Welcome to your unit calculator!
 
-Welcome to your new app.
+We can convert between these units. Please type them exactly as listed:
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+<ul>
+    <li>ft</li>
+    <li>in</li>
+    <li>mile</li>
+    <li>cm</li>
+    <li>m</li>
+    <li>km</li>
+</ul>
+
+Enter unit <input type="number" @bind="oldValue"/> <input type="text" @bind="oldUnit"/>
+
+@code
+{
+    string Title = "Unit Calculator";
+
+    decimal oldValue { get; set; }
+
+    string oldUnit { get; set; }
+}
