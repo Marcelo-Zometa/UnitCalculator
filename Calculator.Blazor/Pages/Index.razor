@@ -1,0 +1,84 @@
+﻿@page "/"
+@using System;
+
+<h1>@Title</h1>
+
+Welcome to your unit calculator!
+
+We can convert between these units. Please type them exactly as listed:
+
+<ul>
+    <li>ft</li>
+    <li>in</li>
+    <li>mile</li>
+    <li>cm</li>
+    <li>m</li>
+    <li>km</li>
+</ul>
+
+Enter unit
+<input type="number" @bind="oldValue" />
+<input type="text" @bind="oldUnit" />
+<br />
+
+Enter unit to convert to:
+<input type="text" @bind="newUnit" />
+<br />
+
+<button type="submit" @onclick="Calculate">Convert</button>
+<br />
+
+Answer:
+<br />
+
+<label>@newValue </label> <label>@newUnit</label>
+
+@code
+{
+    public string Title = "Unit Calculator";
+    public double oldValue { get; set; }
+    public string oldUnit { get; set; }
+    public string newUnit { get; set; }
+    public double newValue { get; set; }
+
+    public Unit calculator;
+
+    public void Calculate()
+    {
+        calculator = createUnit(oldUnit);
+
+        calculator.Calculate(oldValue, "to " + newUnit);
+
+        newValue = calculator.GetNewValue();
+    }
+
+    private Unit createUnit(string originalUnit)
+    {
+        Unit unit;
+
+        switch (originalUnit)
+        {
+            case "cm":
+                unit = new Centimeter();
+                break;
+            case "ft":
+                unit = new Foot();
+                break;
+            case "in":
+                unit = new Inch();
+                break;
+            case "km":
+                unit = new Kilometer();
+                break;
+            case "m":
+                unit = new Meter();
+                break;
+            case "mile":
+                unit = new Mile();
+                break;
+            default: throw new InvalidOperationException();
+        }
+
+        return unit;
+    }
+}
